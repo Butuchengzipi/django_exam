@@ -206,11 +206,24 @@ class Record(models.Model):
         return self.test_id, self.question_id, self.user_id, self.user_score
 
 
+# 用户考试表
+class UserExam(models.Model):
+    user_id = models.IntegerField('用户id')
+    test_id = models.IntegerField('试卷id')
+
+    class Meta:
+        verbose_name = '用户考试'
+        verbose_name_plural = '用户考试表，记录用户的考试信息'
+        unique_together = ('user_id', 'test_id')
+
+    def __str__(self):
+        return self.user_id, self.test_id
+
+
 # 考试信息表
 class ExamInfo(models.Model):
     # 记录用户的每一次考试的每一道题
-    user_id = models.IntegerField('用户id')
-    test_id = models.IntegerField('试卷id')
+    userexam_id = models.IntegerField('用户考试id', unique=True)
     exam_score = models.IntegerField('用户总得分')
     remark = models.CharField('备注', max_length=100)
     exam_time = models.IntegerField('考试次数')
@@ -225,4 +238,3 @@ class ExamInfo(models.Model):
 
     def __str__(self):
         return self.test_id,  self.user_id, self.exam_score
-
