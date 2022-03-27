@@ -7,6 +7,7 @@ from django.db import models
 # 存储用户信息
 # 用户名和email唯一+
 class User(models.Model):
+    id = models.AutoField('序号', primary_key=True)
     username = models.CharField('用户名', max_length=20, unique=True)
     pwd = models.CharField('密码', max_length=15)
     email = models.EmailField('邮箱', unique=True)  # 默认为空 唯一值
@@ -16,7 +17,7 @@ class User(models.Model):
         verbose_name_plural = '用户信息表'
 
     def __str__(self):
-        return self.email, self.username
+        return self.email, self.username, self.id
 
 
 GENDER_LIST = ["Male", "Female"]
@@ -24,6 +25,7 @@ AGE_LIST = ["0-18", "18-25", "26-30", "31-35", "36-40", "41-45", "46-50", "51-55
 
 
 class UserInfo(models.Model):
+    id = models.AutoField('序号', primary_key=True)
     user_id = models.IntegerField('用户id')
     gender = models.CharField('性别', choices=[(x, x) for x in GENDER_LIST], max_length=10)
     age = models.IntegerField('年龄', choices=[(x, x) for x in GENDER_LIST])
@@ -41,6 +43,7 @@ class UserInfo(models.Model):
 
 # 题目表 有：题目描述、题目id、题目答案、附带信息
 class Question(models.Model):
+    id = models.AutoField('序号', primary_key=True)
     question = models.CharField('题目描述', max_length=100)
     answer = models.CharField('答案', max_length=50)
     score = models.IntegerField('分值')
@@ -145,6 +148,7 @@ class QuestionAudio(Question):
 
 # 试卷表 有：描述、简介、重考次数、附带信息
 class TestPaper(models.Model):
+    id = models.AutoField('序号', primary_key=True)
     description = models.CharField('简述', max_length=30)
     introduction = models.CharField('简介', max_length=200)
     re_exam = models.IntegerField(default=0)
@@ -167,6 +171,7 @@ class TestPaper(models.Model):
 
 # 题库表 有：试卷id、题目id
 class QestionBank(models.Model):
+    id = models.AutoField('序号', primary_key=True)
     test_id = models.IntegerField('试卷id')
     question_id = models.IntegerField('题目id')
     order = models.IntegerField()
@@ -185,6 +190,8 @@ class QestionBank(models.Model):
 
 # 考试记录表
 class Record(models.Model):
+    id = models.AutoField('序号', primary_key=True)
+
     # 记录用户的每一次考试的每一道题
     user_id = models.IntegerField('用户id')
     test_id = models.IntegerField('试卷id')
@@ -208,6 +215,8 @@ class Record(models.Model):
 
 # 用户考试表
 class UserExam(models.Model):
+    id = models.AutoField('序号', primary_key=True)
+
     user_id = models.IntegerField('用户id')
     test_id = models.IntegerField('试卷id')
 
@@ -217,14 +226,17 @@ class UserExam(models.Model):
         unique_together = ('user_id', 'test_id')
 
     def __str__(self):
-        return self.user_id, self.test_id
+        return self.user_id, self.test_id, self.id
 
 
 # 考试信息表
 class ExamInfo(models.Model):
+    id = models.AutoField('序号', primary_key=True)
+
     # 记录用户的每一次考试的每一道题
     userexam_id = models.IntegerField('用户考试id', unique=True)
     exam_score = models.IntegerField('用户总得分')
+    total_score = models.IntegerField('试卷总分')
     remark = models.CharField('备注', max_length=100)
     exam_time = models.IntegerField('考试次数')
     is_pass = models.BooleanField('是否通过', default=False)
@@ -237,4 +249,4 @@ class ExamInfo(models.Model):
         verbose_name_plural = '记录用户的每一次考试的每一道题的情况'
 
     def __str__(self):
-        return self.test_id,  self.user_id, self.exam_score
+        return self.userexam_id, self.exam_score, self.total_score, self.is_pass
