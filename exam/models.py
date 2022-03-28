@@ -182,7 +182,7 @@ class QuestionBank(models.Model):
 
     class Meta:
         verbose_name = '题库'
-        verbose_name_plural = '题库表，存储试卷所有的题目'
+        verbose_name_plural = '题库表'
 
     def __str__(self):
         return self.test_id, self.question_id, self.order
@@ -207,7 +207,7 @@ class Record(models.Model):
 
     class Meta:
         verbose_name = '考试记录'
-        verbose_name_plural = '记录用户的每一次考试的每一道题的情况'
+        verbose_name_plural = '考试记录表'
 
     def __str__(self):
         return self.test_id, self.question_id, self.user_id, self.user_score
@@ -222,7 +222,7 @@ class UserExam(models.Model):
 
     class Meta:
         verbose_name = '用户考试'
-        verbose_name_plural = '用户考试表，记录用户的考试信息'
+        verbose_name_plural = '用户考试表'
         unique_together = ('user_id', 'test_id')
 
     def __str__(self):
@@ -245,8 +245,8 @@ class ExamInfo(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新时间", null=True, blank=True)
 
     class Meta:
-        verbose_name = '考试记录'
-        verbose_name_plural = '记录用户的每一次考试的每一道题的情况'
+        verbose_name = '考试信息'
+        verbose_name_plural = '考试信息表'
 
     def __str__(self):
         return self.userexam_id, self.exam_score, self.total_score, self.is_pass
