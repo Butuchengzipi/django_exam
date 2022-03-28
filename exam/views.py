@@ -1,8 +1,9 @@
-from django.shortcuts import render
-import models
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 
-
+from .models import *
+from datetime import datetime
 # Create your views here.
 
 
@@ -45,10 +46,10 @@ def index(request):
         email = request.session.get('email', None)
         print(email)
         user = models.User.objects.filter(email=email)
-        user_exam = models.UserExam.objects.filter(user_id=user.id)
+        user_exam_result = models.UserExam.objects.filter(user_id=user.id)
 
         # 查询成绩信息
-        exam_info = models.ExamInfo.objects.filter(userexam_id=user_exam.id)
+        exam_info = models.ExamInfo.objects.filter(userexam_id=user_exam_result.id)
         # grade = models.Record.objects.filter(sid=student.sid)
 
         # 渲染index模板
@@ -114,7 +115,7 @@ def start_exam(request):
     paper = models.TestPaper.objects.filter(id=tid)
 
     # 题目
-    question = models.QestionBank.objects.filter(test_id=tid)
+    question = models.QuestionBank.objects.filter(test_id=tid)
 
     context = {
         'username': user.username,
@@ -132,7 +133,7 @@ def start_exam(request):
 
 
 # 显示考试成绩页面
-def examinfo(request):
+def exam_info(request):
     # 若session认证为真
     if request.session.get('is_login', None):
         email = request.session.get('email', None)
@@ -152,28 +153,15 @@ def examinfo(request):
 # 交卷时自动计算考试成绩，并存入数据库
 def calculate_grade(request):
     if request.method == 'POST':
-        sid = request.POST.get('sid')
-        subject1 = request.POST.get('subject')
-        student = models.Student.objects.get(sid=sid)
-        paper = models.TestPaper.objects.filter(major=student.major)
-        grade = models.Record.objects.filter(sid=student.sid)
-        course = models.Course.objects.filter(course_name=subject1).first()
-        now = datetime.now()
-        # 计算考试成绩
-        questions = models.TestPaper.objects.filter(course__course_name=subject1). \
-            values('pid').values('pid__id', 'pid__answer', 'pid__score')
+        email = request.POST.get('email')
+        print(email)
+        user = models.User.objects.filter(email=email)
 
-        stu_grade = 0  # 初始化一个成绩
-        for p in questions:
-            qid = str(p['pid__id'])
-        stu_ans = request.POST.get(qid)
-        cor_ans = p['pid__answer']
-        if stu_ans == cor_ans:
-            stu_grade += p['pid__score']
-        models.Record.objects.create(sid_id=sid, course_id=course.id, grade=stu_grade, rtime=now)
-        context = {
-            'student': student,
-            'paper': paper,
-            'grade': grade
-        }
-        return render(request, 'index.html', context=context)
+        test_id = request.POST.get('test_id')
+        user_exam_result = models.UserExam.objects.filter(test_id=test_id)
+
+        record = models.Record.objects.filter(test_id=test_id)
+
+        now = datetime.now()
+
+        return render(request, 'index.html')

@@ -170,7 +170,7 @@ class TestPaper(models.Model):
 
 
 # 题库表 有：试卷id、题目id
-class QestionBank(models.Model):
+class QuestionBank(models.Model):
     id = models.AutoField('序号', primary_key=True)
     test_id = models.IntegerField('试卷id')
     question_id = models.IntegerField('题目id')

@@ -1,0 +1,48 @@
+<div class="container">
+    {% for paper1 in paper %}
+    {% for test in paper1.pid.all %}
+    <div class="row bg-light">
+        <div class="col-12">
+            <!-- <div class="card">-->
+            <!-- <div class="card-body h-10">-->
+            <div id="{{ forloop.counter }}">
+                <b>{{ forloop.counter}}.</b><span>({{ test.score }}分)</span>
+                <b>{{ test.title }}</b>
+                <ul>
+                    <li class="option">
+                        <input type="radio" class="radioOrCheck" name="{{ test.id }}"
+                               value="A"/>
+                        <label>A.
+                            <p class="ue" style="display: inline;">{{ test.a }}</p>
+                        </label>
+                    </li>
+                    <li class="option">
+                        <input type="radio" class="radioOrCheck" name="{{ test.id }}"
+                               value="B"/>
+                        <label>
+                            B.<p class="ue" style="display: inline;">{{ test.b }}</p>
+                        </label>
+                    </li>
+                    <li class="option">
+                        <input type="radio" class="radioOrCheck" name="{{ test.id }}"
+                               value="C"/>
+                        <label>
+                            C.<p class="ue" style="display: inline;">{{ test.c}}</p>
+                        </label>
+                    </li>
+                    <li class="option">
+                        <input type="radio" class="radioOrCheck" name="{{ test.id }}"
+                               value="D"/>
+                        <label>
+                            D.<p class="ue" style="display: inline;">{{ test.d }}</p>
+                        </label>
+                    </li>
+                </ul>
+                <!-- </div>-->
+                <!-- </div>-->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
