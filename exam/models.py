@@ -151,8 +151,8 @@ class TestPaper(models.Model):
     id = models.AutoField('序号', primary_key=True)
     description = models.CharField('简述', max_length=30)
     introduction = models.CharField('简介', max_length=200)
-    re_exam = models.IntegerField(default=0)
-    extra_info = models.CharField(max_length=100, null=True, default=None)
+    re_exam = models.IntegerField('重考次数', default=0)
+    extra_info = models.CharField('额外信息', max_length=100, null=True, default=None)
 
     # 是否活跃
     is_active = models.BooleanField('是否启用', null=False, default=False)
@@ -174,8 +174,8 @@ class QuestionBank(models.Model):
     id = models.AutoField('序号', primary_key=True)
     test_id = models.IntegerField('试卷id')
     question_id = models.IntegerField('题目id')
-    order = models.IntegerField()
-    is_abandon = models.BooleanField(default=False)
+    order = models.IntegerField('题目序号')
+    is_abandon = models.BooleanField('是否弃用', default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新时间", null=True, blank=True)
