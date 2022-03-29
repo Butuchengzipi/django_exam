@@ -155,7 +155,7 @@ class TestPaper(models.Model):
     extra_info = models.CharField(max_length=100, null=True, default=None)
 
     # 是否活跃
-    is_active = models.BooleanField(null=False, default=False)
+    is_active = models.BooleanField('是否启用', null=False, default=False)
     pass_score = models.IntegerField('通过分数', default=0)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
