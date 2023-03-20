@@ -17,7 +17,7 @@ class User(models.Model):
         verbose_name_plural = '用户信息表'
 
     def __str__(self):
-        return self.email, self.username, self.id
+        return f'''{self.email, self.username, self.id}'''
 
 
 GENDER_LIST = ["Male", "Female"]
