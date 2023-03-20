@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'import_export',
 
     'exam',
+    'django_admin_listfilter_dropdown',
 
 ]
 

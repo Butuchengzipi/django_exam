@@ -3,6 +3,8 @@ from .models import *
 from import_export import resources
 from import_export.formats.base_formats import XLSX
 from import_export.admin import ImportExportModelAdmin
+from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter, ChoiceDropdownFilter
+
 
 # 修改名称
 admin.site.site_header = '大数据资源招募考试系统平台'
@@ -58,9 +60,13 @@ class UserAdmin(UserImportExportMixin, admin.ModelAdmin):
     list_display = ["username", "pwd", "email"]
 
     # 右侧筛选列表
-    list_filter = ['username']
+    # list_filter = ['username']
+    list_filter = (
+        ("username", DropdownFilter),
+        ("email", ChoiceDropdownFilter),
+    )
     # 模糊查询
-    search_fields = ["username", "email"]
+    # search_fields = ["username", "email"]
 
     # def has_add_permission(self, request, obj=None):
     #     return False
@@ -152,5 +158,14 @@ class QuestionBankAdmin(TestPaperImportExportMixin, admin.ModelAdmin):
 
     # 右侧筛选列表
     list_filter = ["id"]
+    # list_filter = (
+    #     # for ordinary fields
+    #     ('id', DropdownFilter),
+    #     # # for choice fields
+    #     # ('question_id', ChoiceDropdownFilter),
+    #     # # for related fields
+    #     # ('is_abandon', RelatedDropdownFilter),
+    # )
+
     # 模糊查询
     search_fields = ["test_id", "question_id"]
