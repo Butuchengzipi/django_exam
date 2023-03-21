@@ -3,7 +3,7 @@ from .models import *
 from import_export import resources
 from import_export.formats.base_formats import XLSX
 from import_export.admin import ImportExportModelAdmin
-from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter, ChoiceDropdownFilter, SimpleListFilter
+from django_admin_listfilter_dropdown.filters import *
 
 
 # 修改名称
@@ -56,9 +56,7 @@ class UserImportExportMixin(ImportExportModelAdmin):
 
 
 @admin.register(User)
-class UserAdmin(UserImportExportMixin, admin.ModelAdmin, SimpleListFilter):
-    template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
-
+class UserAdmin(UserImportExportMixin, admin.ModelAdmin):
     list_display = ["username", "pwd", "email"]
 
     # 右侧筛选列表
@@ -80,14 +78,18 @@ class UserAdmin(UserImportExportMixin, admin.ModelAdmin, SimpleListFilter):
     #     return False
 
 
-class CustomFilter(SimpleListFilter):
-    template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
+# class CustomFilter(SimpleListFilter):
+#     template = 'django_admin_listfilter_dropdown/dropdown_filter.html'
+#
+#     title = 'username'
+#     field_name = 'username'
+#
+#     # def lookups(self, request, model_admin):
+#     #     ...
+#     #
+#     # def queryset(self, request, queryset):
+#     #     ...
 
-    def lookups(self, request, model_admin):
-        ...
-
-    def queryset(self, request, queryset):
-        ...
 
 class TestPaperResource(resources.ModelResource):
     # import 前进行的一些校验
